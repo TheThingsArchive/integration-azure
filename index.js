@@ -80,7 +80,7 @@ const Bridge = class Bridge extends EventEmitter {
     this._getDevice(uplink.devEUI).then(deviceInfo => {
       const message = JSON.stringify(this._createMessage(uplink));
 
-      deviceInfo.sendEvent(new device.Message(JSON.stringify(message)), (err, res) => {
+      deviceInfo.sendEvent(new device.Message(message), (err, res) => {
         if (err) {
           console.warn('%s: Could not send event: %s. Closing connection', uplink.devEUI, err);
           deviceInfo.close(err => {
