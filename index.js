@@ -8,19 +8,19 @@ const amqp = require('azure-iot-device-amqp');
 const common = require('azure-iot-common');
 const EventEmitter = require('events');
 
-const DEFAULT_TTN_REGION = 'eu';
 const SAK_CONNECTION_STRING = 'HostName=%s.azure-devices.net;SharedAccessKeyName=%s;SharedAccessKey=%s';
 const DEVICE_CONNECTION_STRING = 'HostName=%s.azure-devices.net;DeviceId=%%s;SharedAccessKey=%%s';
 
 const Bridge = class Bridge extends EventEmitter {
-  constructor(appId, accessKey, hubName, keyName, key, options) {
+  constructor(region, appId, accessKey, hubName, keyName, key, options) {
     super();
     options = options || {};
 
     this._createMessage = options.createMessage || function(deviceId, message) {
       const metadata = {
         deviceId: deviceId,
-        time: message.metadata.time
+        time: message.metadata.time,
+	raw: message.payload_raw
       };
       return Object.assign({}, message.payload_fields, metadata);
     }
@@ -29,7 +29,7 @@ const Bridge = class Bridge extends EventEmitter {
     this.deviceConnectionString = util.format(DEVICE_CONNECTION_STRING, hubName);
     this.devices = {};
 
-    this.ttnClient = new ttn.Client(options.region || DEFAULT_TTN_REGION, appId, accessKey);
+    this.ttnClient = new ttn.Client(region, appId, accessKey);
     this.ttnClient.on('connect', super.emit.bind(this, 'ttn-connect'));
     this.ttnClient.on('error', super.emit.bind(this, 'error'));
     this.ttnClient.on('message', this._handleMessage.bind(this));
@@ -75,7 +75,6 @@ const Bridge = class Bridge extends EventEmitter {
   }
 
   _handleMessage(deviceId, data) {
-    console.log(data);
     console.log('%s: Handling message', deviceId);
 
     this._getDevice(deviceId).then(deviceInfo => {
