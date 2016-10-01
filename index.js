@@ -20,7 +20,7 @@ const Bridge = class Bridge extends EventEmitter {
       const metadata = {
         deviceId: deviceId,
         time: message.metadata.time,
-	raw: message.payload_raw
+        raw: message.payload_raw.toString('base64')
       };
       return Object.assign({}, message.payload_fields, metadata);
     }
