@@ -58,7 +58,7 @@ const Bridge = class Bridge extends EventEmitter {
         }
       });
     }).then(deviceInfo => {
-      const key = deviceInfo.authentication.SymmetricKey.primaryKey;
+      const key = deviceInfo.authentication.symmetricKey.primaryKey;
       const connectionString = util.format(this.deviceConnectionString, deviceId, key);
       const client = amqp.clientFromConnectionString(connectionString);
       return new Promise((resolve, reject) => {
