@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/TheThingsNetwork/azure-app-lib#readme",
   "dependencies": {
-    "azure-iot-common": "^1.0.15",
-    "azure-iot-device": "^1.0.15",
-    "azure-iot-device-amqp": "^1.0.15",
-    "azure-iothub": "^1.0.17",
+    "azure-iot-common": "^1.1.0",
+    "azure-iot-device": "^1.1.0",
+    "azure-iot-device-amqp": "^1.1.0",
+    "azure-iothub": "^1.1.0",
     "ttn": "^2.0.0-7"
   }
 }
