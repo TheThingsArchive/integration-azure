@@ -21,6 +21,6 @@
     "azure-iot-device": "^1.0.15",
     "azure-iot-device-amqp": "^1.0.15",
     "azure-iothub": "^1.0.17",
-    "ttn": "^2.0.0-6"
+    "ttn": "^2.0.0-7"
   }
 }
