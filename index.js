@@ -26,7 +26,7 @@ const Bridge = class Bridge extends EventEmitter {
     }
 
     if (!appId || !accessKey || !region || !hubName || !keyName || !key) {
-      throw new Error("Invalid arguments: Could not get the settings")
+      throw new Error('Invalid arguments')
     }
 
     this.registry = iothub.Registry.fromConnectionString(util.format(SAK_CONNECTION_STRING, hubName, keyName, key));
