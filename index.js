@@ -12,7 +12,7 @@ const SAK_CONNECTION_STRING = 'HostName=%s.azure-devices.net;SharedAccessKeyName
 const DEVICE_CONNECTION_STRING = 'HostName=%s.azure-devices.net;DeviceId=%%s;SharedAccessKey=%%s';
 
 const Bridge = class Bridge extends EventEmitter {
-  constructor(options) {
+  constructor(region, appId, accessKey, hubName, keyName, key, options) {
     super();
     options = options || {};
 
@@ -25,13 +25,9 @@ const Bridge = class Bridge extends EventEmitter {
       return Object.assign({}, message.payload_fields, metadata);
     }
 
-    const appId = checkSetting(process.env.TTN_APP_ID);
-    const accessKey = checkSetting(process.env.TTN_APP_ACCESS_KEY);
-    const region = checkSetting(process.env.TTN_REGION);
-
-    const hubName = checkSetting(process.env.TTI_AZURE_HUBNAME);
-    const keyName = checkSetting(process.env.TTI_AZURE_KEYNAME);
-    const key = checkSetting(process.env.TTI_AZURE_KEY);
+    if (!appId || !accessKey || !region || !hubName || !keyName || !key) {
+      throw new Error("Invalid settings: Could not get the setting")
+    }
 
     this.registry = iothub.Registry.fromConnectionString(util.format(SAK_CONNECTION_STRING, hubName, keyName, key));
     this.deviceConnectionString = util.format(DEVICE_CONNECTION_STRING, hubName);
@@ -111,16 +107,3 @@ const Bridge = class Bridge extends EventEmitter {
 module.exports = {
   Bridge: Bridge
 };
-
-function checkSetting(variable){
-  if ( typeof variable !== 'undefined' && variable ) {
-    return variable;
-  } else {
-    throw new InvalidSetting("Could not get the setting")
-  }
-}
-
-function InvalidSetting(message) {
-  this.message = message;
-  this.name = "Invalid setting";
-}
