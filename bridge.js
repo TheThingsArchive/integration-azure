@@ -19,9 +19,9 @@ bridge.on('ttn-connect', () => {
 });
 
 bridge.on('error', err => {
-  console.warn('Error', err);
+  console.warn('Failed to handle uplink', err);
 });
 
 bridge.on('message', data => {
-  console.log('Message', data);
+  console.log('Handled uplink', data);
 });
