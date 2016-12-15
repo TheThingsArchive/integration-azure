@@ -1,6 +1,6 @@
 #!/bin/bash
 
-node usr/azure-integration/examples/simple.js
+node usr/azure-integration/bridge.js
 printf 'INTEGRATION PROCESS FATAL ERROR: %s\n' "$?"
 
-exit 1
+exit 0

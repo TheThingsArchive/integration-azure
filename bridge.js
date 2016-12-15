@@ -1,6 +1,6 @@
 'use strict';
 
-const ttnazureiot = require('..');
+const ttnazureiot = require('.');
 
 // TTN related settings
 const appId = process.env.TTN_APP_ID;
