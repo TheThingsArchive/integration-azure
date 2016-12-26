@@ -1,4 +1,6 @@
-FROM node:latest
+FROM alpine
+
+RUN apk add --update nodejs
 
 COPY . /usr/azure-integration
 
