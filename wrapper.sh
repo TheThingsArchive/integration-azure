@@ -1,6 +1,11 @@
 #!/bin/bash
 
 node usr/azure-integration/bridge.js
-printf 'INTEGRATION PROCESS FATAL ERROR: %s\n' "$?"
 
-exit 0
+exitCode=$?
+if [ $exitCode -ne 0 ]
+then
+  printf 'INTEGRATION PROCESS FATAL ERROR\n'
+fi
+
+exit $exitCode
