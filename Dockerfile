@@ -2,7 +2,9 @@ FROM alpine
 
 RUN apk add --update nodejs
 
-COPY . /usr/azure-integration
+COPY ./bridge.js ./index.js ./wrapper.sh /usr/azure-integration/
+
+COPY ./node_modules /usr/azure-integration/node_modules
 
 RUN chmod +x usr/azure-integration/wrapper.sh
 
