@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk add --update nodejs
+RUN apk --update add --no-cache ca-certificates nodejs
 
 COPY ./bridge.js ./index.js ./wrapper.sh /usr/azure-integration/
 
