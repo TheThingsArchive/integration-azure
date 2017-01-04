@@ -1,7 +1,5 @@
-.dockerignore
 .git
 .gitignore
-*.swp
 Dockerfile
 LICENSE
 README.*

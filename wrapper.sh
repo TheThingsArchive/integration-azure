@@ -1,6 +1,6 @@
 #!/bin/sh
 
-node /usr/azure-integration/bridge.js
+node /tti/azure/bridge.js
 
 exitCode=$?
 if [ $exitCode -ne 0 ]
