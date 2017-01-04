@@ -1,0 +1,10 @@
+.dockerignore
+.git
+.gitignore
+*.swp
+Dockerfile
+LICENSE
+README.*
+*.env
+.DS_Store
+Makefile
