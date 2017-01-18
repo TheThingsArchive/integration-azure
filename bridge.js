@@ -1,4 +1,5 @@
 'use strict';
+const fs = require('fs');
 
 const ttnazureiot = require('.');
 
@@ -12,7 +13,25 @@ const hubName = process.env.TTN_AZURE_HUBNAME;
 const keyName = process.env.TTN_AZURE_KEYNAME;
 const key = process.env.TTN_AZURE_KEY;
 
-const bridge = new ttnazureiot.Bridge(region, appId, accessKey, hubName, keyName, key);
+var options;
+
+try {
+  const mqttCertPath = process.env.TTN_MQTT_CERT;
+  if (!mqttCertPath) {
+    throw new Error('Could not find the ca certificate');
+  }
+  options = {
+    protocol: 'mqtts',
+    ca: [ fs.readFileSync(mqttCertPath) ],
+  };
+}
+catch(err) {
+  options = {};
+  console.warn('Could not connect using TLS %s', err);
+  console.warn("Fallback to a non-secure connection");
+}
+
+const bridge = new ttnazureiot.Bridge(region, appId, accessKey, hubName, keyName, key, options);
 
 bridge.on('ttn-connect', () => {
   console.log('TTN connected');

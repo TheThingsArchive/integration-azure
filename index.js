@@ -33,7 +33,7 @@ const Bridge = class Bridge extends EventEmitter {
     this.deviceConnectionString = util.format(DEVICE_CONNECTION_STRING, hubName);
     this.devices = {};
 
-    this.ttnClient = new ttn.Client(region, appId, accessKey);
+    this.ttnClient = new ttn.Client(region, appId, accessKey, options);
     this.ttnClient.on('connect', super.emit.bind(this, 'ttn-connect'));
     this.ttnClient.on('error', super.emit.bind(this, 'error'));
     this.ttnClient.on('message', this._handleMessage.bind(this));
