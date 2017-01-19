@@ -1,4 +1,5 @@
 'use strict';
+
 const fs = require('fs');
 const ttnazureiot = require('.');
 
@@ -12,10 +13,10 @@ const hubName = process.env.TTN_AZURE_HUBNAME;
 const keyName = process.env.TTN_AZURE_KEYNAME;
 const key = process.env.TTN_AZURE_KEY;
 
-const mqttCertPath = process.env.TTN_MQTT_CERT || '/etc/ttn/mqtt-ca.pem'
+const mqttCertPath = process.env.TTN_MQTT_CERT || '/etc/ttn/mqtt-ca.pem';
 var options = {
   protocol: 'mqtts',
-  ca: [ fs.readFileSync(mqttCertPath) ],
+  ca: fs.readFileSync(mqttCertPath),
 };
 
 const bridge = new ttnazureiot.Bridge(region, appId, accessKey, hubName, keyName, key, options);
