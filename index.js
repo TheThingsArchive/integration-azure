@@ -93,7 +93,6 @@ const Bridge = class Bridge extends EventEmitter {
           });
           this.emit('error', err);
         } else {
-          console.log(JSON.stringify(message));
           this.emit('info', `${deviceId}: Handled message ${message}`);
         }
       });
