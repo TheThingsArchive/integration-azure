@@ -4,4 +4,4 @@ RUN apk --update add --no-cache ca-certificates nodejs
 
 COPY . /tti/azure/
 
-ENTRYPOINT /tti/azure/wrapper.sh
+ENTRYPOINT /tti/azure/docker-entrypoint.sh
