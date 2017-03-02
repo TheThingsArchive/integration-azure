@@ -2,9 +2,12 @@
 
 const fs = require('fs');
 const ttnazureiot = require('.');
+const ttn = require('ttn');
+const ttnlog = ttn.Log;
 
 // TTN related settings
 const appId = process.env.TTN_APP_ID;
+const processId = process.env.TTN_PROCESS_ID;
 const accessKey = process.env.TTN_APP_ACCESS_KEY;
 const region = process.env.TTN_REGION;
 
@@ -19,16 +22,17 @@ var options = {
   ca: fs.readFileSync(mqttCertPath),
 };
 
+var logger = new ttnlog.Logger('azure', appId, processId);
 const bridge = new ttnazureiot.Bridge(region, appId, accessKey, hubName, keyName, key, options);
 
-bridge.on('ttn-connect', () => {
-  console.log('TTN connected');
+bridge.on('info', message => {
+  logger.log(ttnlog.Levels.INFO, message);
 });
 
-bridge.on('error', err => {
-  console.warn('Failed to handle uplink', err);
+bridge.on('error', message => {
+  logger.log(ttnlog.Levels.ERROR, message);
 });
 
-bridge.on('message', data => {
-  console.log('Handled uplink', data);
+bridge.on('warn', message => {
+  logger.log(ttnlog.Levels.WARN, message);
 });

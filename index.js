@@ -34,7 +34,7 @@ const Bridge = class Bridge extends EventEmitter {
     this.devices = {};
 
     this.ttnClient = new ttn.Client(region, appId, accessKey, options);
-    this.ttnClient.on('connect', super.emit.bind(this, 'ttn-connect'));
+    this.ttnClient.on('connect', super.emit.bind(this, 'info', 'ttn-connect'));
     this.ttnClient.on('error', super.emit.bind(this, 'error'));
     this.ttnClient.on('message', this._handleMessage.bind(this));
   }
@@ -79,27 +79,26 @@ const Bridge = class Bridge extends EventEmitter {
   }
 
   _handleMessage(deviceId, data) {
-    console.log('%s: Handling message', deviceId);
+    this.emit('info', `${deviceId}: Handling message`);
 
     this._getDevice(deviceId).then(deviceInfo => {
       const message = JSON.stringify(this._createMessage(deviceId, data));
 
       deviceInfo.sendEvent(new device.Message(message), (err, res) => {
         if (err) {
-          console.warn('%s: Could not send event: %s. Closing connection', deviceId, err);
+          this.emit('warn', `${deviceId}: Could not send event: ${err}. Closing connection`);
           deviceInfo.close(err => {
             // Delete reference even if close failed
             delete this.devices[deviceId];
           });
           this.emit('error', err);
         } else {
-          this.emit('message', { deviceId: deviceId, message: message });
+          this.emit('info', `${deviceId}: Handled message ${message}`);
         }
       });
     })
     .catch(err => {
-      console.log('%s: Could not get device: %s', deviceId, err);
-      super.emit('error', err);
+      this.emit('error', `${deviceId}: Could not get device: ${err}`);
     });
   }
 }
