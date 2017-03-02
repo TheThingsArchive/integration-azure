@@ -6,4 +6,4 @@ COPY . /tti/azure/
 
 ENV TTN_MQTT_CERT /tti/azure/mqtt-ca.pem
 
-ENTRYPOINT /tti/azure/wrapper.sh
+ENTRYPOINT /tti/azure/docker-entrypoint.sh
