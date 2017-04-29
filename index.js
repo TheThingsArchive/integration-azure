@@ -82,13 +82,13 @@ const Bridge = class Bridge extends EventEmitter {
     this.emit('info', `${deviceId}: Handling message`)
 
     this._getDevice(deviceId)
-      .then(deviceInfo => {
+      .then(client => {
         const message = JSON.stringify(this._createMessage(deviceId, data))
 
-        deviceInfo.sendEvent(new device.Message(message), (err, res) => {
+        client.sendEvent(new device.Message(message), (err, res) => {
           if (err) {
             this.emit('error', `${deviceId}: Could not send event: ${err}. Closing connection`)
-            deviceInfo.close(err => {
+            client.close(err => {
               // Delete reference even if close failed
               delete this.devices[deviceId]
             })
